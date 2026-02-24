@@ -1,23 +1,13 @@
 import numpy as np
 import random
+from collections import deque
 
 
 class MazeTransitionGenerator:
-    ACTIONS = {
-        0: (-1, 0),
-        1: (1, 0),
-        2: (0, -1),
-        3: (0, 1),
-    }
-    LABELS = {
-        "STAY": 0,
-        "UP": 1,
-        "DOWN": 2,
-        "LEFT": 3,
-        "RIGHT": 4,
-    }
+    ACTIONS = {0: (-1, 0), 1: (1, 0), 2: (0, -1), 3: (0, 1)}
 
-    def __init__(self, grid_size=10):
+    def __init__(self, grid_size=11):
+        assert grid_size % 2 == 1
         self.grid_size = grid_size
 
     def generate_solvable_maze(self):
@@ -26,7 +16,7 @@ class MazeTransitionGenerator:
 
         def carve(x, y):
             maze[x, y] = 0
-            directions = [(2, 0), (-2, 0), (0, 2), (0, -2)]
+            directions = [(0, 2), (0, -2), (2, 0), (-2, 0)]
             random.shuffle(directions)
 
             for dx, dy in directions:
@@ -36,54 +26,34 @@ class MazeTransitionGenerator:
                     carve(nx, ny)
 
         carve(0, 0)
-        maze[0, 0] = 0
-        maze[N - 1, N - 1] = 0
-        maze[N - 2, N - 1] = 0
-        maze[N - 1, N - 2] = 0
         return maze
 
-    def compute_physics(self, maze, pos, action):
-        dx, dy = self.ACTIONS[action]
-        x, y = pos
-        nx, ny = x + dx, y + dy
+    def _get_valid_path(self, maze, exit_pos):
+        N = self.grid_size
+        queue = deque([exit_pos])
+        visited = set([exit_pos])
 
-        if (
-            nx < 0
-            or nx >= self.grid_size
-            or ny < 0
-            or ny >= self.grid_size
-            or maze[nx, ny] == 1
-        ):
-            return pos, self.LABELS["STAY"]
+        policy = {}
 
-        if action == 0:
-            return (nx, ny), self.LABELS["UP"]
-        elif action == 1:
-            return (nx, ny), self.LABELS["DOWN"]
-        elif action == 2:
-            return (nx, ny), self.LABELS["LEFT"]
-        elif action == 3:
-            return (nx, ny), self.LABELS["RIGHT"]
+        while queue:
+            x, y = queue.popleft()
 
-    def get_maze_transitions(self):
+            for action, dx, dy in self.ACTIONS.items():
+                nx, ny = x + dx, y + dy
 
-        maze = self.generate_solvable_maze()
-        free_cells = np.argwhere(maze == 0)
+                if (
+                    0 <= nx < N
+                    and 0 <= ny < N
+                    and maze[nx, ny] == 0
+                    and (nx, ny) not in visited
+                ):
+                    visited.add((nx, ny))
+                    queue.append((nx, ny))
 
-        exit_pos = (self.grid_size - 1, self.grid_size - 1)
+                    reverse_action = self._reverse_action(action)
+                    policy[(nx, ny)] = reverse_action
 
-        transitions = []
+        return policy
 
-        for x, y in free_cells:
-            for action in range(4):
-                next_pos, label = self.compute_physics(maze, (x, y), action)
-                transitions.append(
-                    {
-                        "maze": maze.copy(),
-                        "start": (x, y),
-                        "action": action,
-                        "label": label,
-                        "exit": exit_pos,
-                    }
-                )
-        return transitions
+    def _reverse_action(self, action):
+        return {0: 1, 1: 0, 2: 3, 3: 2}[action]
