@@ -38,7 +38,7 @@ class MazeTransitionGenerator:
         while queue:
             x, y = queue.popleft()
 
-            for action, dx, dy in self.ACTIONS.items():
+            for action, (dx, dy) in self.ACTIONS.items():
                 nx, ny = x + dx, y + dy
 
                 if (
