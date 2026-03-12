@@ -8,7 +8,7 @@ raw_dir = 'data/raw'
 split_dir = 'data/split'
 batch_size = 32
 num_workers = 4
-image_size = [128,128]
+image_size = [132,132]
 seed = 1008
 
 
