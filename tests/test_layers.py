@@ -31,7 +31,7 @@ def test_pos_embd():
     grid_size = 11
 
     pos_layer = PositionEmbedding(num_patches=T, n_embd=C, grid_size=grid_size)
-    x = torch.randn(B, T, C)
+    x = torch.zeros(B, T, C)
     out = pos_layer(x)
 
     assert out.shape == (B, T, C), (
@@ -39,7 +39,32 @@ def test_pos_embd():
     )
 
     assert not torch.allclose(out[0, 0], out[0, 1]), (
-        "Expected output to be different for different patches"
+        "Expected positional embeddings to be different for different patches"
     )
 
     print("Position embedding test passed")
+
+
+def test_maze_transformer():
+    config = Config.load(Path("config/base.toml"))
+    model = MazeTransformer(config)
+
+    x = torch.randn(4, 3, 132, 132)
+    logits = model(x)
+
+    assert logits.shape == (x.shape[0], 4), (
+        f"Expected output shape to be {x.shape[0], 4}, got {logits.shape}"
+    )
+
+    print("Maze transformer test passed")
+
+
+if __name__ == "__main__":
+    try:
+        test_patch_embedding()
+        test_pos_embd()
+        test_maze_transformer()
+    except AssertionError as e:
+        print(f"Test failed: {str(e)}")
+    except Exception as e:
+        print(f"Test failed: {str(e)}")
