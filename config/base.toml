@@ -18,7 +18,7 @@ n_embd = 256
 num_heads = 4
 dropout = 0.1
 dim_ratio = 4
-patch_size = 16
+patch_size = 12
 max_sequence_length = 4
 
 [training]
