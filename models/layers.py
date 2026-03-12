@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-import math
 
 
 class PatchEmbedding(nn.Module):
@@ -29,8 +28,8 @@ class PositionEmbedding(nn.Module):
         self.grid_size = grid_size
         self.num_patches = num_patches
         self.n_embd = n_embd
-        self.row_embd = nn.Paramter(torch.randn(grid_size, n_embd))
-        self.col_embd = nn.Paramter(torch.randn(grid_size, n_embd))
+        self.row_embd = nn.Parameter(torch.randn(grid_size, n_embd) * 0.02)
+        self.col_embd = nn.Parameter(torch.randn(grid_size, n_embd) * 0.02)
 
     def forward(self, x):
         B, T, C = x.shape
