@@ -67,7 +67,12 @@ class TransformerBlock(nn.Module):
     def forward(self, x, return_attn=False):
         norm_x = self.ln_1(x)
 
-        attn_out, weights = self.attn(norm_x, norm_x, norm_x, need_weights=True)
+        attn_out, weights = self.attn(
+            norm_x,
+            norm_x,
+            norm_x,
+            need_weights=True,
+        )
 
         x = x + attn_out
 
