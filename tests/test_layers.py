@@ -1,13 +1,11 @@
 import torch
-import pytest
 from models.model import MazeTransformer
-from models.layers import PatchEmbedding, PositionEmbedding
+from models.layers import PatchEmbedding, PositionEmbedding, TransformerBlock
 from core.config import Config
 from pathlib import Path
 
 
 def test_patch_embedding():
-    config = Config.load(Path("config/base.toml"))
     B, C, H, W = 2, 3, 132, 132
     patch_size = 12
     embd_dim = 256
@@ -63,6 +61,22 @@ def test_maze_transformer():
     )
 
     print("Maze transformer test passed")
+
+
+def test_transformer_block():
+    config = Config.load(Path("config/base.toml"))
+    B, T, C = 2, 122, 256
+    block = TransformerBlock(config)
+    x = torch.randn(B, T, C)
+    out, attn = block(x, return_attn=True)
+    assert out.shape == (B, T, C), (
+        f"Expected output shape to be {B, T, C}, got {out.shape}"
+    )
+    assert attn.shape == (B, T, T), (
+        f"Expected attn shape to be {B, T, T}, got {attn.shape}"
+    )
+
+    print("Transformer block test passed")
 
 
 if __name__ == "__main__":
