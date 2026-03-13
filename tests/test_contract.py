@@ -3,8 +3,10 @@ from core.config import Config
 from data.dataloader import MazeDataModule
 from models.model import MazeTransformer
 from pathlib import Path
+import pytest
 
 
+@pytest.mark.integration
 def test_contract():
     config = Config.load(Path("config/base.toml"))
     dm = MazeDataModule(
