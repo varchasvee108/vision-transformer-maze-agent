@@ -35,7 +35,7 @@ markers = [
     "integration: marks tests as integration tests (deselect with '-m \"not integration\"')"
 ]
 testpaths = ["tests"]
-addopts = "-v"
+addopts = "-v -s"
 pythonpath = ["."]
 
 [tool.setuptools.packages.find]
