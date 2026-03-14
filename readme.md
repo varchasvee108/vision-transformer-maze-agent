@@ -33,6 +33,9 @@ The system follows a Vision Transformer pipeline designed to emulate algorithmic
 You can download the pretrained model checkpoint to try the inference and visualization directly:
 *   **Checkpoint**: [Google Drive Link](https://drive.google.com/file/d/1hV-utLR49r_CuVE_8D_nYZFU5RbJU04N/view?usp=sharing)
 
+> [!NOTE]
+> Google Drive may flag the `.ckpt` file as suspicious since it cannot scan it for viruses (due to the file format). The file is approximately **38MB**. It is a standard PyTorch Lightning checkpoint and should be downloaded directly.
+
 Place the downloaded `.ckpt` file in the `outputs/checkpoints/` directory.
 
 ## Training Performance
