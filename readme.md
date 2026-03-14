@@ -43,6 +43,14 @@ The model's training progress is captured in the following loss and accuracy cur
 |:---:|:---:|:---:|
 | ![Train Loss](visuals/train_loss.png) | ![Validation Loss](visuals/val_loss.png) | ![Validation Accuracy](visuals/val_acc.png) |
 
+## Agent Rollouts
+
+Below are examples of the agent's navigation behavior and attention rollouts:
+
+| Success Case | Failure Case |
+|:---:|:---:|
+| ![Success Maze](visuals/success_maze.gif) | ![Failure Maze](visuals/failure_maze.gif) |
+
 ## Getting Started
 
 ### Installation
