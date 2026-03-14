@@ -28,10 +28,10 @@ The system follows a Vision Transformer pipeline designed to emulate algorithmic
 5.  **Self-Attention Blocks**: Multiple layers of Multi-Head Self-Attention process the visual sequence, effectively "tracing" paths across tokens.
 6.  **Action Prediction**: Maps the final CLS token to four primary directions: Up, Down, Left, or Right.
 
-## Pretrained Model(70% accuracy)
+## Pretrained Model(72% accuracy)
 
 You can download the pretrained model checkpoint to try the inference and visualization directly:
-*   **Checkpoint**: [Google Drive Link](INSERT_LINK_HERE)
+*   **Checkpoint**: [Google Drive Link](https://drive.google.com/file/d/1hV-utLR49r_CuVE_8D_nYZFU5RbJU04N/view?usp=sharing)
 
 Place the downloaded `.ckpt` file in the `outputs/checkpoints/` directory.
 
@@ -45,7 +45,7 @@ The model's training progress is captured in the following loss and accuracy cur
 
 ## Agent Rollouts
 
-Below are examples of the agent's navigation behavior and attention rollouts:
+Below are examples of the agent's navigation behavior and attention rollouts. The **heatmaps overlaid on the maze** represent the model's **Attention Rollout**—a visualization of where the Vision Transformer is focusing its "eyes" at each step to determine the next move.
 
 | Success Case | Failure Case |
 |:---:|:---:|
